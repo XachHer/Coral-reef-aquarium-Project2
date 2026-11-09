@@ -21,31 +21,64 @@ public class Aquarium {
         drawRock(-225, -205, 35, 18);
         drawRock(260, -200, 60, 25);
 
+        // random coral heights, but each one stays close to the one before it
+        int height = 110 + (int) (Math.random() * 41);   // first coral: 110 to 150
+
         // loop 1: a row of coral that switches between red and purple
         for (int i = 0; i < 4; i++) {
             Color coralColor;
-            int height;
             if (i % 2 == 0) {
                 coralColor = new Color(210, 50, 60);
-                height = 110;
             } else {
                 coralColor = new Color(140, 60, 170);
-                height = 150;
             }
             drawCoral(-140 + i * 75, -210, height, coralColor);
+
+            // next coral is up to 30 taller or shorter, but stays between 90 and 170
+            height = height - 30 + (int) (Math.random() * 61);
+            if (height < 90) {
+                height = 90;
+            }
+            if (height > 170) {
+                height = 170;
+            }
         }
 
-        // starfish (two sizes and colors)
-        drawStarfish(-290, -255, 40, new Color(240, 200, 40));
-        drawStarfish(320, -260, 22, new Color(240, 130, 170));
+        // EXTRA CREDIT: starfish get a random spot on the sand (big one on the left half,
+        // small one on the right half, so they never overlap or go off the canvas)
+        int bigStarX = -360 + (int) (Math.random() * 281);    // -360 to -80
+        int smallStarX = 80 + (int) (Math.random() * 291);    // 80 to 370
+        drawStarfish(bigStarX, -255, 40, new Color(240, 200, 40));
+        drawStarfish(smallStarX, -260, 22, new Color(240, 130, 170));
 
-        // fish (two sizes and colors, both face right)
-        drawFish(-250, 120, 170, 95, new Color(245, 140, 30));
-        drawFish(120, 10, 85, 48, new Color(60, 110, 220));
+        // EXTRA CREDIT: fish get random spots in the open water above the coral.
+        // The x and y ranges keep the whole fish (tail included) on the canvas.
+        int bigX = -330 + (int) (Math.random() * 551);        // -330 to 220
+        int bigY = 30 + (int) (Math.random() * 211);          // 30 to 240
+        drawFish(bigX, bigY, 170, 95, new Color(245, 140, 30));
+
+        // keep picking a spot for the small fish until it doesn't overlap the big fish
+        int smallX = 0;
+        int smallY = 0;
+        boolean overlaps = true;
+        while (overlaps) {
+            smallX = -350 + (int) (Math.random() * 651);      // -350 to 300
+            smallY = 0 + (int) (Math.random() * 266);         // 0 to 265
+
+            // compare the boxes around each fish (tail to nose, top to bottom) with a 20 pixel gap
+            boolean apartSideways = smallX + 85 + 20 < bigX - 60 || bigX + 170 + 20 < smallX - 30;
+            boolean apartUpDown = smallY + 24 + 20 < bigY - 48 || bigY + 48 + 20 < smallY - 24;
+            overlaps = !(apartSideways || apartUpDown);
+        }
+        drawFish(smallX, smallY, 85, 48, new Color(60, 110, 220));
+
+        // EXTRA CREDIT: a random number of bubbles (4 to 7) in a random spot
+        int bubbleCount = 4 + (int) (Math.random() * 4);
+        int bubbleX = 250 + (int) (Math.random() * 111);      // 250 to 360
 
         // loop 2: bubbles that get bigger as they float up
-        for (int i = 0; i < 7; i++) {
-            int x = 320 - (i % 2) * 12;
+        for (int i = 0; i < bubbleCount; i++) {
+            int x = bubbleX - (i % 2) * 12;
             int y = -140 + i * 55;
             drawBubble(x, y, 6 + i * 2);
         }
