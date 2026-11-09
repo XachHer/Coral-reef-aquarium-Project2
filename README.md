@@ -1,6 +1,6 @@
 # Coral Reef Aquarium
 
-CSCI 1115G Project 2. Draws a coral reef scene inside an aquarium using the `edu.cymbal.graphics` Painter library.
+CSCI 1720G Project 2. Draws a coral reef scene inside an aquarium using the `edu.cymbal.graphics` Painter library.
 
 ## What's in the scene
 - Two kinds of sea creatures: oval fish facing right (big orange, small blue) and starfish (big yellow, small pink)
@@ -18,4 +18,3 @@ Loops are used to draw the row of coral and the column of bubbles.
 javac -cp lib/painter-canvas-17.jar Aquarium.java
 java -cp lib/painter-canvas-17.jar;. Aquarium
 ```
-(On Mac/Linux use `:` instead of `;` in the second command.)
